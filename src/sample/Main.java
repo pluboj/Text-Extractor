@@ -6,6 +6,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -19,7 +20,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Text Extractor v1.0");
-
 
         /*ChoiceBox*/
         ChoiceBox<String> documents = new ChoiceBox<>();
@@ -37,6 +37,11 @@ public class Main extends Application {
         gridPane.setVgap(10);
         gridPane.setPadding(new Insets(25, 25, 25, 25));
 
+        /*Buttons*/
+        Button btnProcess = new Button("Process");
+        btnProcess.setPrefWidth(500);
+        btnProcess.setOnAction(e -> processDocument());
+
         /*Labels*/
         Label lblDocuments = new Label("Select type of document: ");
         lblDocuments.setLabelFor(documents);
@@ -49,12 +54,18 @@ public class Main extends Application {
         gridPane.addRow(1, documents);
         gridPane.addRow(2, lblTextUrl);
         gridPane.addRow(3, textUrl);
+        gridPane.addRow(6, btnProcess);
 
         Scene scene = new Scene(gridPane, 500, 350);
         scene.getStylesheets().add("/resources/css/main.css");
         primaryStage.setScene(scene);
 
         primaryStage.show();
+    }
+
+    //TODO:pl - process doc
+    private void processDocument() {
+        System.out.println("button was clicked");
     }
 
 
