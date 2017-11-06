@@ -11,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+    ProcessWord processWord;
+
     ChoiceBox<String> documents;
     ProgressIndicator indeterminateInd;
     TextField textUrl;
@@ -73,6 +75,10 @@ public class Main extends Application {
         String url = textUrl.getText();
         String doc = documents.getValue();
         if (isInputValid (doc, url)) {
+            if (doc.equalsIgnoreCase("word")) {
+                processWord = new ProcessWord(url);
+                System.out.println(processWord);
+            }
             System.out.println(documents.getValue());
             indeterminateInd.setProgress(1.0);
         }
