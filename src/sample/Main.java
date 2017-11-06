@@ -7,13 +7,13 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
     ChoiceBox<String> documents;
     ProgressIndicator indeterminateInd;
+    TextField textUrl;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -28,7 +28,7 @@ public class Main extends Application {
         indeterminateInd = new ProgressIndicator(0);
 
         /*Text input*/
-        TextField textUrl = new TextField();
+        textUrl = new TextField();
         textUrl.setPromptText("Paste Url");
         textUrl.setPrefWidth(500);
 
@@ -70,8 +70,16 @@ public class Main extends Application {
 
     //TODO:pl - process doc
     private void processDocument() {
-        System.out.println(documents.getValue());
-        indeterminateInd.setProgress(1.0);
+        String url = textUrl.getText();
+        String doc = documents.getValue();
+        if (isInputValid (doc, url)) {
+            System.out.println(documents.getValue());
+            indeterminateInd.setProgress(1.0);
+        }
+    }
+
+    private boolean isInputValid (String doc, String url) {
+        return (doc != null && url != null && !url.isEmpty());
     }
 
     public static void main(String[] args) {
