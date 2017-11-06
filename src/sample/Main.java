@@ -15,7 +15,7 @@ public class Main extends Application {
 
     ChoiceBox<String> documents;
     ProgressIndicator indeterminateInd;
-    TextField textUrl;
+    TextField textFile;
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -30,9 +30,9 @@ public class Main extends Application {
         indeterminateInd = new ProgressIndicator(0);
 
         /*Text input*/
-        textUrl = new TextField();
-        textUrl.setPromptText("Paste Url");
-        textUrl.setPrefWidth(500);
+        textFile = new TextField();
+        textFile.setPromptText("Paste Url");
+        textFile.setPrefWidth(500);
 
         /*Grid Pane*/
         GridPane gridPane = new GridPane();
@@ -50,14 +50,14 @@ public class Main extends Application {
         Label lblDocuments = new Label("Select type of document: ");
         lblDocuments.setLabelFor(documents);
 
-        Label lblTextUrl = new Label("Paste URL: ");
-        lblTextUrl.setLabelFor(textUrl);
+        Label lblTextUrl = new Label("Paste file path: ");
+        lblTextUrl.setLabelFor(textFile);
 
         /*Add elements to gridPane*/
         gridPane.addRow(0,lblDocuments);
         gridPane.addRow(1, documents);
         gridPane.addRow(2, lblTextUrl);
-        gridPane.addRow(3, textUrl);
+        gridPane.addRow(3, textFile);
         gridPane.addRow(6, btnProcess);
         gridPane.addRow(7, indeterminateInd);
 
@@ -72,20 +72,23 @@ public class Main extends Application {
 
     //TODO:pl - process doc
     private void processDocument() {
-        String url = textUrl.getText();
+        String file = textFile.getText();
         String doc = documents.getValue();
-        if (isInputValid (doc, url)) {
+        if (isInputValid (doc, file)) {
             if (doc.equalsIgnoreCase("word")) {
-                processWord = new ProcessWord(url);
+                processWord = new ProcessWord(file);
                 System.out.println(processWord);
+                processWord.processUrl();
             }
             System.out.println(documents.getValue());
             indeterminateInd.setProgress(1.0);
+            textFile.clear();
+            documents.setValue(null);
         }
     }
 
-    private boolean isInputValid (String doc, String url) {
-        return (doc != null && url != null && !url.isEmpty());
+    private boolean isInputValid (String doc, String file) {
+        return (doc != null && file != null && !file.isEmpty());
     }
 
     public static void main(String[] args) {
