@@ -22,8 +22,9 @@ public class ProcessWord {
             for (Element p : paragraphs ) {
                 if (p.hasText()) {
                     String filteredP = p.html();
-                    filteredP = filteredP.replaceAll("<span\\s+[^>]*|</span>|<o:p>|</o:p>","");
-                    filteredP = filteredP.replaceAll("<b\\s.*\">","<b>");
+                    filteredP = filteredP.replaceAll("<!--(.*)-->/s","");
+                    //filteredP = filteredP.replaceAll("<span\\s.*\">|</span>|<o:p>|</o:p>","");
+                    //filteredP = filteredP.replaceAll("<b\\s.*\">","<b>");
                     System.out.println(filteredP);
                 }
             }
