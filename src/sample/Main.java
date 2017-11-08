@@ -8,7 +8,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import java.io.File;
 
 public class Main extends Application {
     ProcessWord processWord;
@@ -31,8 +34,10 @@ public class Main extends Application {
 
         /*Text input*/
         textFile = new TextField();
-        textFile.setPromptText("Paste Url");
-        textFile.setPrefWidth(500);
+        textFile.setPromptText("File path");
+        //textFile.setPrefWidth(20);
+        textFile.setMinWidth(300);
+        textFile.setMaxWidth(500);
 
         /*Grid Pane*/
         GridPane gridPane = new GridPane();
@@ -46,6 +51,9 @@ public class Main extends Application {
         btnProcess.setPrefWidth(500);
         btnProcess.setOnAction(e -> processDocument());
 
+        Button btnFileChooser = new Button("Choose file");
+        btnFileChooser.setOnAction(e -> chooseFile(primaryStage));
+
         /*Labels*/
         Label lblDocuments = new Label("Select type of document: ");
         lblDocuments.setLabelFor(documents);
@@ -53,21 +61,39 @@ public class Main extends Application {
         Label lblTextUrl = new Label("Paste file path: ");
         lblTextUrl.setLabelFor(textFile);
 
+        /* HBox */
+        HBox hbox = new HBox(20);
+        hbox.getChildren().addAll(textFile, btnFileChooser);
+
+        HBox hboxDoc = new HBox(20);
+        hboxDoc.getChildren().addAll(lblDocuments, documents);
+
         /*Add elements to gridPane*/
-        gridPane.addRow(0,lblDocuments);
-        gridPane.addRow(1, documents);
-        gridPane.addRow(2, lblTextUrl);
-        gridPane.addRow(3, textFile);
+        gridPane.addRow(1, hboxDoc);
+        gridPane.addRow(3, hbox);
         gridPane.addRow(6, btnProcess);
         gridPane.addRow(7, indeterminateInd);
 
         Scene scene = new Scene(gridPane, 500, 350);
         scene.getStylesheets().add("/resources/css/main.css");
         primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
 
 
 
         primaryStage.show();
+    }
+
+    private void chooseFile(Stage primaryStage) {
+        File desktop = javax.swing.filechooser.FileSystemView.getFileSystemView().getHomeDirectory();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setInitialDirectory(desktop);
+        fileChooser.getExtensionFilters()
+                .addAll(new FileChooser.ExtensionFilter("HTML FILES", "*.htm", "*.html"));
+        File file = fileChooser.showOpenDialog(primaryStage);
+        if (file != null) {
+            textFile.setText(file.getAbsolutePath());
+        }
     }
 
     //TODO:pl - process doc
