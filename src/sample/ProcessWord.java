@@ -7,6 +7,7 @@ import org.jsoup.select.Elements;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class ProcessWord {
     private String fileName;
@@ -18,24 +19,37 @@ public class ProcessWord {
     public void processUrl () {
         try {
             Document doc = Jsoup.parse(new File(fileName), "utf-8");
-            Elements paragraphs = doc.select("p");
-            for (Element p : paragraphs ) {
-                if (p.hasText()) {
-                    String filteredP = p.html();
+            Pattern lineBreak = Pattern.compile("\n");
+            Pattern returnCar = Pattern.compile("\r");
+            Pattern op = Pattern.compile("<o:p>.*</o:p>");
+            Pattern comment = Pattern.compile("<!--.*-->");
+            Pattern endTag = Pattern.compile("\">");
+            Pattern span = Pattern.compile("<span.*");
+            Pattern spanEnd = Pattern.compile("</span>");
+            Pattern anchor = Pattern.compile("<a.*");
+            Pattern anchorEnd = Pattern.compile("</a>");
+            Pattern bold = Pattern.compile("<b\\s.*");
+            Pattern underline = Pattern.compile("<u\\s.*");
 
-                    filteredP = filteredP.replaceAll("\n","").replaceAll("\r","");
-                    filteredP = filteredP.replaceAll("<o:p>.*</o:p>","");
-                    filteredP = filteredP.replaceAll("<!--.*-->","");
-                    filteredP = filteredP.replaceAll("\">","\n");
-                    filteredP = filteredP.replaceAll("<span.*","");
-                    filteredP = filteredP.replaceAll("</span>","");
-                    filteredP = filteredP.replaceAll("<a.*","");
-                    filteredP = filteredP.replaceAll("</a>","");
-                    filteredP = filteredP.replaceAll("\n","").replaceAll("\r","");
-                    filteredP = filteredP.replaceAll("(?i)page break","-----------------------------------------------\n\n");
+            Elements parents = doc.select("h1, h2, h3, h4, h5, h6, p");
+            for ( Element child : parents) {
+                String childToString = child.html();
+                childToString = lineBreak.matcher(childToString).replaceAll("");
+                childToString = returnCar.matcher(childToString).replaceAll("");
+                childToString = op.matcher(childToString).replaceAll("");
+                childToString = comment.matcher(childToString).replaceAll("");
+                childToString = endTag.matcher(childToString).replaceAll(">\n");
+                childToString = span.matcher(childToString).replaceAll("");
+                childToString = spanEnd.matcher(childToString).replaceAll("");
+                childToString = anchor.matcher(childToString).replaceAll("");
+                childToString = anchorEnd.matcher(childToString).replaceAll("");
+                childToString = bold.matcher(childToString).replaceAll("<b>");
+                childToString = underline.matcher(childToString).replaceAll("<u>");
+                childToString = lineBreak.matcher(childToString).replaceAll("");
+                childToString = returnCar.matcher(childToString).replaceAll("");
 
-                    System.out.println(filteredP);
-                }
+                System.out.println(childToString);
+                System.out.println("======================================================");
             }
         } catch (IOException e) {
             e.printStackTrace();
