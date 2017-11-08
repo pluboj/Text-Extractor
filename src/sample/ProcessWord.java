@@ -16,7 +16,7 @@ public class ProcessWord {
         this.fileName = fileName;
     }
 
-    public void processUrl () {
+    public void processFile () {
         try {
             Document doc = Jsoup.parse(new File(fileName), "utf-8");
             Pattern lineBreak = Pattern.compile("\n");

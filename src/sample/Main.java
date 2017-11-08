@@ -78,9 +78,8 @@ public class Main extends Application {
             if (doc.equalsIgnoreCase("word")) {
                 processWord = new ProcessWord(file);
                 System.out.println(processWord);
-                processWord.processUrl();
+                processWord.processFile();
             }
-            System.out.println(documents.getValue());
             indeterminateInd.setProgress(1.0);
             textFile.clear();
             documents.setValue(null);
