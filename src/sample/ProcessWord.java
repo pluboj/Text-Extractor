@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-public class ProcessWord {
+public class ProcessWord  extends AbstractFileGenerator {
     private String fileName;
 
     public ProcessWord (String fileName) {
@@ -31,6 +31,8 @@ public class ProcessWord {
             Pattern bold = Pattern.compile("<b\\s.*");
             Pattern underline = Pattern.compile("<u\\s.*");
 
+            StringBuilder sb = new StringBuilder();
+
             Elements parents = doc.select("h1, h2, h3, h4, h5, h6, p");
             for ( Element child : parents) {
                 String childToString = child.html();
@@ -48,9 +50,10 @@ public class ProcessWord {
                 childToString = lineBreak.matcher(childToString).replaceAll("");
                 childToString = returnCar.matcher(childToString).replaceAll("");
 
-                System.out.println(childToString);
-                System.out.println("======================================================");
+                sb.append(childToString);
+                sb.append("\r\n===================================================\r\n");
             }
+            generateTextFile(sb);
         } catch (IOException e) {
             e.printStackTrace();
         }
