@@ -106,6 +106,10 @@ public class Main extends Application {
                 System.out.println(processWord);
                 processWord.processFile();
             }
+            if (doc.equalsIgnoreCase("excel")) {
+                //TODO: pl - add code here
+                System.out.println("Process excel file");
+            }
             indeterminateInd.setProgress(1.0);
             textFile.clear();
             documents.setValue(null);
