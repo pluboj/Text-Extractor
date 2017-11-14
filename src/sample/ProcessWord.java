@@ -50,7 +50,12 @@ public class ProcessWord  extends AbstractFileGenerator {
                 childToString = lineBreak.matcher(childToString).replaceAll("");
                 childToString = returnCar.matcher(childToString).replaceAll("");
 
-                sb.append(childToString);
+                if (childToString.length() == 2 && childToString.charAt(0) == 'O') {
+                    continue;
+                } else {
+                    sb.append(childToString);
+                }
+
                 sb.append("\r\n===================================================\r\n");
             }
             generateTextFile(sb);
